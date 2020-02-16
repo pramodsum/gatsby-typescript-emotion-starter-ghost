@@ -5,22 +5,26 @@ import styled from "@emotion/styled";
 
 // Styles
 import "../../styles/app.css";
-import { Flex, Box, Container, Link } from "./core";
+import { Flex, Box, Link } from "./core";
 
 import Mast from "./Mast";
 import Banner from "./Banner";
 import Navigation from "./Navigation";
 import { fonts } from "./core/theme";
+import { DataProps } from "./Layout";
 
 const Logo = styled.img`
   height: 25px;
 `;
 
-const Header = ({ data, isHome }) => {
+const Header: React.FC<{ data: DataProps; isHome: boolean }> = ({
+  data,
+  isHome
+}) => {
   const site = data.allGhostSettings.edges[0].node;
 
   return (
-    <Container py="20px">
+    <Box py="20px">
       <Flex alignItems="center" justifyContent="space-between">
         <Box fontFamily={fonts.serif}>
           <Link href="/">
@@ -33,7 +37,7 @@ const Header = ({ data, isHome }) => {
         <Banner title={site.title} description={site.description} />
       ) : null}
       <Navigation data={site.navigation} />
-    </Container>
+    </Box>
   );
 };
 export default Header;

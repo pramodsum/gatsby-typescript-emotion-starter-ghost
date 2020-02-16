@@ -10,7 +10,10 @@ const Title = styled.h1`
   line-height: 1.3;
 `;
 
-const Banner = ({ title, description }) => (
+const Banner: React.FC<{ title: string; description: string }> = ({
+  title,
+  description
+}) => (
   <Box maxWidth="80%" mx="auto" py="10vw" textAlign="center">
     <Title>{title}</Title>
     <Text mt="5px" p={0} fontSize="2.4rem" lineHeight="1.3" opacity={0.7}>

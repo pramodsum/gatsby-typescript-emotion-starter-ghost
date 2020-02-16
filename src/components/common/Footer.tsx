@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-import { Box, Container, colors, Link } from "./core";
-import Navigation from "./Navigation";
+import { Box, colors, Link } from "./core";
+import Navigation, { NavItem } from "./Navigation";
 
 const FooterLink = styled.a`
   padding: 2px 5px;
@@ -13,13 +13,12 @@ const FooterLink = styled.a`
   }
 `;
 
-const Footer = ({ title, navigation }) => (
+const Footer: React.FC<{ title: string; navigation: Array<NavItem> }> = ({
+  title,
+  navigation
+}) => (
   <Box py="20px" pb="40px">
-    <Container
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-    >
+    <Box display="flex" alignItems="center" justifyContent="space-between">
       <Box className="site-foot-nav-left">
         <Link href="/">{title}</Link> © 2019 &mdash; Published with{" "}
         <FooterLink
@@ -32,9 +31,9 @@ const Footer = ({ title, navigation }) => (
         </FooterLink>
       </Box>
       <Box className="site-foot-nav-right">
-        <Navigation data={navigation} navClass="site-foot-nav-item" />
+        <Navigation data={navigation} />
       </Box>
-    </Container>
+    </Box>
   </Box>
 );
 

@@ -1,9 +1,20 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { graphql } from "gatsby";
 
 import { Layout, PostCard, Pagination } from "../components/common";
 import { MetaData } from "../components/common/meta";
+import { GhostPostProps } from "../components/common/meta/ArticleMeta";
+import { PageContext } from "../components/common/Pagination";
+
+interface IndexPageProps {
+  data: {
+    allGhostPost: {
+      edges: Array<{ node: GhostPostProps }>;
+    };
+  };
+  location: Location;
+  pageContext: PageContext;
+}
 
 /**
  * Main index page (home page)
@@ -13,12 +24,12 @@ import { MetaData } from "../components/common/meta";
  * in /utils/siteConfig.js under `postsPerPage`.
  *
  */
-const Index = ({ data, location, pageContext }) => {
+const Index: React.FC<IndexPageProps> = ({ data, location, pageContext }) => {
   const posts = data.allGhostPost.edges;
 
   return (
     <>
-      <MetaData location={location} />
+      <MetaData data={data} location={location} />
       <Layout isHome={true}>
         <div className="container">
           <section className="post-feed">
@@ -32,16 +43,6 @@ const Index = ({ data, location, pageContext }) => {
       </Layout>
     </>
   );
-};
-
-Index.propTypes = {
-  data: PropTypes.shape({
-    allGhostPost: PropTypes.object.isRequired
-  }).isRequired,
-  location: PropTypes.shape({
-    pathname: PropTypes.string.isRequired
-  }).isRequired,
-  pageContext: PropTypes.object
 };
 
 export default Index;

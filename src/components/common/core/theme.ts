@@ -1,6 +1,8 @@
 // NOTE: For reference, use https://styled-system.com/theme-specification
 
+import { Theme } from "styled-system";
 import { BREAKPOINTS_DICT } from "./mediaBreakpoints";
+import { ColorScheme } from "./ColorScheme";
 
 export const breakpoints = [
   BREAKPOINTS_DICT.XS,
@@ -11,12 +13,13 @@ export const breakpoints = [
 ];
 
 // tslint:disable: object-literal-sort-keys
-export const colors = {
+export const colors: ColorScheme = {
   primary: "#3eb0ef",
   base: "#15171a",
   secondary: "#5b7a81",
   border: "#c7d5d8",
   bg: "#f5f5f5",
+  white: "#ffffff",
   success: "#68e1c7",
   error: "#ff7f82",
   warning: "#ffc259",
@@ -29,7 +32,7 @@ export const colors = {
 
 export const fonts = {
   mono: "Noto-Mono, monospace",
-  sans: "Playfair Display, system-ui, sans-serif",
+  sans: "Graphik, system-ui, sans-serif",
   serif: "Publico, serif"
 };
 
@@ -122,7 +125,7 @@ export const spacesNamed = {
 // This is so hacky. I am sorry.
 Object.keys(spacesNamed).forEach(key => (space[key] = spacesNamed[key]));
 
-const theme = {
+const theme: Theme = {
   breakpoints,
   colors,
   fonts,
@@ -132,5 +135,36 @@ const theme = {
   shadows,
   space
 };
+
+export interface ITheme {
+  breakpoints: Array<number>;
+  colors: ColorScheme;
+  fonts: {
+    mono: string;
+    sans: string;
+    serif: string;
+  };
+  fontSizes: Array<number>;
+  fontWeights: {
+    lighter: number;
+    normal: number;
+    bold: number;
+    bolder: number;
+  };
+  lineHeights: {
+    header: number;
+    body: number;
+    bodyTighter: number;
+    mobileHeader: number;
+    mobileBody: number;
+  };
+  shadows: {
+    large: string;
+    medium: string;
+    small: string;
+    none: string;
+  };
+  space: Array<number>;
+}
 
 export default theme;

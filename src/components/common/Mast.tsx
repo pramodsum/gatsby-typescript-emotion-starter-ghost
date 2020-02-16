@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 
 import config from "../../utils/siteConfig";
 import { Flex, colors } from "./core";
+import { SiteProps } from "./meta/MetaData";
 
 const MastItem = styled.a`
   display: inline-block;
@@ -21,7 +22,7 @@ const MastIcon = styled.img`
   margin: -5px 0 0;
 `;
 
-const Mast = ({ site }) => {
+const Mast: React.FC<{ site: SiteProps }> = ({ site }) => {
   const twitterUrl = site.twitter
     ? `https://twitter.com/${site.twitter.replace(/^@/, ``)}`
     : null;

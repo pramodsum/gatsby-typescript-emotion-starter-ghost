@@ -1,7 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { Flex, Link } from "./core";
+
+export interface NavItem {
+  label: string;
+  url: string;
+}
 
 /**
  * Navigation component
@@ -13,7 +17,7 @@ import { Flex, Link } from "./core";
  * to a `site-nav-item` class.
  *
  */
-const Navigation = ({ data }) => (
+const Navigation: React.FC<{ data: Array<NavItem> }> = ({ data }) => (
   <Flex alignItems="center" justifyContent="space-between" mt="15px" mx="20px">
     {data.map((navItem, index) => (
       <Link href={navItem.url} key={index}>
@@ -23,14 +27,5 @@ const Navigation = ({ data }) => (
     <Link href="/about">About</Link>
   </Flex>
 );
-
-Navigation.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired
-    }).isRequired
-  ).isRequired
-};
 
 export default Navigation;

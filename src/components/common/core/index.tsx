@@ -1,16 +1,14 @@
 // NOTE: Inspired from Rebass
-import React from "react";
 import { css } from "@emotion/core";
 import styled from "@emotion/styled";
-import { Link as GatsbyLink } from "gatsby";
 import * as system from "styled-system";
 import { pseudoStyle } from "./pseudoStyle";
+import shouldForwardProp from "@styled-system/should-forward-prop";
 
 import { media } from "./mediaBreakpoints";
 import { colors, fontSizesNamed, fontWeights } from "./theme";
-
-export { media } from "./mediaBreakpoints";
-export { colors, fontSizesNamed, fontWeights } from "./theme";
+export * from "./mediaBreakpoints";
+export * from "./theme";
 
 const hover = pseudoStyle({
   alias: "hov",
@@ -18,13 +16,31 @@ const hover = pseudoStyle({
   pseudoclass: "hover"
 });
 
-const href = pseudoStyle({
-  alias: "href",
-  prop: "href",
-  pseudoclass: "href"
-});
+export type BoxProps = system.AlignSelfProps &
+  system.BackgroundProps &
+  system.BordersProps &
+  system.BottomProps &
+  system.ColorProps &
+  system.DisplayProps &
+  system.FlexProps &
+  system.FontSizeProps &
+  system.HeightProps &
+  system.LeftProps &
+  system.MaxWidthProps &
+  system.MinWidthProps &
+  system.OpacityProps &
+  system.OrderProps &
+  system.OverflowProps &
+  system.PositionProps &
+  system.RightProps &
+  system.SpaceProps &
+  system.TextAlignProps &
+  system.TopProps &
+  system.VerticalAlignProps &
+  system.WidthProps &
+  system.ZIndexProps;
 
-export const Box = styled.div(
+export const Box = styled<"div", { BoxProps }>("div", { shouldForwardProp })(
   {
     boxSizing: "border-box"
   },
@@ -53,7 +69,12 @@ export const Box = styled.div(
   system.zIndex
 );
 
-export const Flex = styled(Box)(
+export type FlexProps = BoxProps &
+  system.AlignItemsProps &
+  system.FlexDirectionProps &
+  system.FlexWrapProps &
+  system.JustifyContentProps;
+export const Flex = styled<typeof Box, FlexProps>(Box, { shouldForwardProp })(
   {
     display: "flex"
   },
@@ -64,68 +85,44 @@ export const Flex = styled(Box)(
   system.justifyContent
 );
 
-export const Container = styled(Flex)({
-  display: "block",
-  maxWidth: "1120px",
-  margin: "0 auto",
-  padding: "0 4vw"
-});
-
-export const Text = styled(Box)(
+export type TextProps = BoxProps &
+  system.FontFamilyProps &
+  system.FontWeightProps &
+  system.LetterSpacingProps &
+  system.LineHeightProps;
+export const Text = styled<typeof Box, TextProps>(Box, { shouldForwardProp })(
   system.fontFamily,
   system.fontWeight,
   system.letterSpacing,
   system.lineHeight
 );
 
-export const Heading = styled(Text)();
+export const Heading = styled<typeof Text, TextProps>(Text, {
+  shouldForwardProp
+})();
 
 Heading.defaultProps = {
   fontSize: `${fontSizesNamed.heading}px`,
   fontWeight: fontWeights.bolder
 };
 
-const linkCss = css`
-  padding: 5px 10px;
-  border-radius: 0.6rem;
-  margin-left: -10px;
-  color: ${colors.secondary};
-
-  hover: {
-    text-decoration: none;
-    color: ${colors.primary};
-  }
-`;
-
-const LinkBase = styled(Text)(
-  {
-    cursor: "pointer"
-  },
-  href
-);
-export const Link = ({ href, children }) =>
-  href.match(/^\s?http(s?)/gi) ? (
-    <LinkBase
-      css={linkCss}
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {children}
-    </LinkBase>
-  ) : (
-    <GatsbyLink css={linkCss} to={href}>
-      {children}
-    </GatsbyLink>
-  );
+export const Link = styled<typeof Box, TextProps>(Box, { shouldForwardProp })({
+  cursor: "pointer"
+});
 
 Link.defaultProps = {
   as: "a",
-  color: "primary",
-  href: ""
+  color: "primary"
 };
 
-export const Button = styled(Box)(
+export type ButtonProps = BoxProps &
+  system.BorderColorProps &
+  system.BorderRadiusProps &
+  system.ButtonStyleProps &
+  system.FontWeightProps;
+export const Button = styled<typeof Box, ButtonProps>(Box, {
+  shouldForwardProp
+})(
   {
     appearance: "none",
     display: "inline-block",
@@ -153,7 +150,8 @@ Button.defaultProps = {
   py: 2
 };
 
-export const Image = styled(Box)(
+export type ImageProps = BoxProps & system.BorderRadiusProps;
+export const Image = styled<typeof Box, ImageProps>(Box, { shouldForwardProp })(
   {
     height: "auto",
     maxWidth: "100%"
@@ -166,7 +164,19 @@ Image.defaultProps = {
 };
 
 const cards = system.variant({ key: "cards" });
-export const Card = styled(Flex)(
+export type CardProps = FlexProps &
+  system.BackgroundImageProps &
+  system.BackgroundPositionProps &
+  system.BackgroundRepeatProps &
+  system.BackgroundSizeProps &
+  system.BorderColorProps &
+  system.BorderRadiusProps &
+  system.BoxShadowProps &
+  system.OpacityProps;
+
+export const Card = styled<typeof Flex, { CardProps }>(Flex, {
+  shouldForwardProp
+})(
   cards,
   system.backgroundImage,
   system.backgroundPosition,
@@ -178,12 +188,20 @@ export const Card = styled(Flex)(
   system.opacity
 );
 
-export const Table = styled(Box)({
-  borderCollapse: "collapse",
-  display: "table"
-});
+export type TableProps = BoxProps;
+export const Table = styled<typeof Box, TableProps>(Box, { shouldForwardProp })(
+  {
+    borderCollapse: "collapse",
+    display: "table"
+  }
+);
 
-export const TableRow = styled(Box)(
+export type TableRowProps = BoxProps &
+  system.BorderColorProps &
+  system.BorderRadiusProps;
+export const TableRow = styled<typeof Box, TableRowProps>(Box, {
+  shouldForwardProp
+})(
   {
     display: "table-row"
   },
@@ -191,7 +209,10 @@ export const TableRow = styled(Box)(
   system.borderRadius
 );
 
-export const TableCell = styled(Text)(
+export type TableCellProps = TextProps & system.VerticalAlignProps;
+export const TableCell = styled<typeof Text, TableCellProps>(Text, {
+  shouldForwardProp
+})(
   {
     display: "table-cell"
   },
@@ -213,15 +234,15 @@ export const TextInput = css`
   font-size: ${fontSizesNamed.medium}px;
 
   ::-webkit-input-placeholder {
-    color: ${colors.darkGray};
+    color: ${colors.base};
   }
 
   :disabled::-webkit-input-placeholder {
-    color: ${colors.lighterGray};
+    color: ${colors.secondary};
   }
 
   :focus {
-    box-shadow: 0 0 3px ${colors.lightGray};
+    box-shadow: 0 0 3px ${colors.secondary};
   }
 
   ${media.smallerThan.XS} {
@@ -231,7 +252,7 @@ export const TextInput = css`
 
 export const FormElement = css`
   ${TextInput} :-webkit-autofill {
-    background-color: ${colors.neutral} !important;
+    background-color: ${colors.bg} !important;
   }
 
   :focus {
@@ -243,7 +264,7 @@ export const FormElement = css`
     outline: 0;
   }
 
-  border: 1px solid ${colors.lighterGray};
+  border: 1px solid ${colors.secondary};
   border-radius: 2px;
   box-sizing: border-box;
   padding: 10px 12px;

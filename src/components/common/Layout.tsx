@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import Helmet from "react-helmet";
 import { StaticQuery, graphql } from "gatsby";
 
@@ -9,6 +8,18 @@ import { Box, Flex } from "./core";
 
 import Header from "./Header";
 import Footer from "./Footer";
+import { AllGhostSettings, SiteProps } from "./meta/MetaData";
+
+export interface DataProps {
+  file: object;
+  allGhostSettings: AllGhostSettings;
+}
+
+interface LayoutProps {
+  bodyClass?: string;
+  isHome?: boolean;
+  data?: DataProps;
+}
 
 /**
  * Main layout component
@@ -18,8 +29,13 @@ import Footer from "./Footer";
  * styles, and meta data for each page.
  *
  */
-const DefaultLayout = ({ data, children, bodyClass, isHome }) => {
-  const site = data.allGhostSettings.edges[0].node;
+const DefaultLayout: React.FC<LayoutProps> = ({
+  data,
+  children,
+  bodyClass,
+  isHome
+}) => {
+  const site: SiteProps = data.allGhostSettings.edges[0].node;
 
   return (
     <>
@@ -51,17 +67,7 @@ const DefaultLayout = ({ data, children, bodyClass, isHome }) => {
   );
 };
 
-DefaultLayout.propTypes = {
-  children: PropTypes.node.isRequired,
-  bodyClass: PropTypes.string,
-  isHome: PropTypes.bool,
-  data: PropTypes.shape({
-    file: PropTypes.object,
-    allGhostSettings: PropTypes.object.isRequired
-  }).isRequired
-};
-
-const DefaultLayoutSettingsQuery = props => (
+const DefaultLayoutSettingsQuery: React.FC<LayoutProps> = props => (
   <StaticQuery
     query={graphql`
       query GhostSettings {
