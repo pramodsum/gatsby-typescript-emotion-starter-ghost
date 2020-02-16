@@ -1,0 +1,6 @@
+@font-face {
+  font-family: "Playfair Display";
+  src: local("Playfair Display"), local("Playfair Display"),
+    url("./fonts/Playfair_Display/PlayfairDisplay-VariableFont:wght.ttf")
+      format("woff2");
+}
